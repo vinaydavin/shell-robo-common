@@ -2,7 +2,7 @@
 
 source ./common.sh
 app_name=catalogue
-
+check_root
 app_setup
 nodejs_setup
 systemd_setup
@@ -20,7 +20,6 @@ else
     echo -e "${Y}Catalogue Data already present. Skipping Catalogue Data Load.${N}" | tee -a ${log_file}
 fi  
 
-systemctl restart catalogue &>> ${log_file}
-validate $? "Restarting catalogue service"
+app_restart
 
 print_total_time

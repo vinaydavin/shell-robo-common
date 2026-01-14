@@ -69,6 +69,10 @@ systemd_setup(){
   systemctl start $app_name &>> ${log_file}
   validate $? "Starting $app_name service"
 }
+app_restart(){
+  systemctl restart catalogue &>> ${log_file}
+  validate $? "Restarting catalogue service"
+}
 
 print_total_time(){
   end_time=$(date +%s)

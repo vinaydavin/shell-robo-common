@@ -4,9 +4,9 @@ check_root
 
 dnf remove redis\* -y &>> ${log_file}
 validate $? "Disabling Old Redis Module"
-dnf install epel-release -y && dnf install https://rpms.remirepo.net/enterprise/remi-release-9.rpm -y
+sudo dnf install -y amazon-linux-extras
  &>> ${log_file}
-sudo dnf module reset redis -y
+sudo amazon-linux-extras enable redis7
 validate $? "Enabling Redis 7 Module"
 dnf --enablerepo=remi install redis -y &>> ${log_file}
 validate $? "Installing Redis"
@@ -19,5 +19,5 @@ systemctl start redis &>> ${log_file}
 validate $? "Starting Redis Service"
 
 print_total_time
-sudo dnf --enablerepo=remi install -y redis
-sudo dnf --enablerepo=remi search redis
+
+

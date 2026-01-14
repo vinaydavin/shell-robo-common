@@ -4,7 +4,8 @@ check_root
 
 dnf remove redis\* -y &>> ${log_file}
 validate $? "Disabling Old Redis Module"
-dnf module enable redis:7 -y &>> ${log_file}
+dnf install epel-release -y && dnf install https://rpms.remirepo.net/enterprise/remi-release-9.rpm -y
+ &>> ${log_file}
 validate $? "Enabling Redis 7 Module"
 dnf install redis -y &>> ${log_file}
 validate $? "Installing Redis"

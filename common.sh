@@ -32,6 +32,44 @@ validate(){
   fi
 }
 
+nodejs_setup(){
+  dnf remove nodejs -y &>> ${log_file}
+  validate $? "Disabling Nodejs Module"
+
+  curl -fsSL https://rpm.nodesource.com/setup_20.x &>> ${log_file}
+  validate $? "Enabling Nodejs 20 Module"
+
+  dnf install nodejs -y &>> ${log_file}
+  validate $? "Installing Nodejs"
+
+  npm install &>> ${log_file}
+  validate $? "Installing Nodejs Dependencies"
+}
+
+app_setup(){
+  mkdir -p /app 
+
+  curl -o /tmp/$app_name.zip https://roboshop-artifacts.s3.amazonaws.com/$app_name-v3.zip &>> ${log_file}
+  validate $? "Downloading C$app_name App Content"
+
+  cd /app 
+  rm -rf /app/* &>> ${log_file}
+  validate $? "Cleaning /app Directory"
+
+  unzip /tmp/$app_name.zip &>> ${log_file}
+}
+
+systemd_setup(){
+  cp $script_dir/$app_name.service /etc/systemd/system/$app_name.service &>> ${log_file}
+  validate $? "Copy systemctl service file"
+  systemctl daemon-reload &>> ${log_file}
+  validate $? "Reloading systemctl daemon"
+  systemctl enable $app_name &>> ${log_file}
+  validate $? "Enabling $app_name service"
+  systemctl start $app_name &>> ${log_file}
+  validate $? "Starting $app_name service"
+}
+
 print_total_time(){
   end_time=$(date +%s)
   total_time=$(($end_time - $start_time))

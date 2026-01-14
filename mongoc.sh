@@ -1,7 +1,6 @@
 #! /bin/bash
 
 source ./common.sh
-
 check_root
 
 cp $script_dir/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}

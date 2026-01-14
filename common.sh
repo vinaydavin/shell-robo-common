@@ -47,6 +47,12 @@ nodejs_setup(){
 }
 
 app_setup(){
+  id roboshop
+  if [ $? -ne 0 ]; then
+      useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> ${log_file}
+  else
+      echo -e "${Y}roboshop user already exists. Skipping user creation step.${N}" | tee -a ${log_file}
+  fi
   mkdir -p /app 
 
   curl -o /tmp/$app_name.zip https://roboshop-artifacts.s3.amazonaws.com/$app_name-v3.zip &>> ${log_file}

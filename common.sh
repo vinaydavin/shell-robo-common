@@ -85,8 +85,8 @@ systemd_setup(){
   validate $? "Starting $app_name service"
 }
 app_restart(){
-  systemctl restart catalogue &>> ${log_file}
-  validate $? "Restarting catalogue service"
+  systemctl restart $app_name &>> ${log_file}
+  validate $? "Restarting $app_name service"
 }
 
 print_total_time(){

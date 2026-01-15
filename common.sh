@@ -65,6 +65,15 @@ app_setup(){
   unzip /tmp/$app_name.zip &>> ${log_file}
 }
 
+java_setup(){
+  dnf install maven -y &>> ${log_file}
+  validate $? "Installing Maven"
+  mvn clean package &>> ${log_file}
+  validate $? "Building shipping App"
+  mv target/shipping-1.0.jar shipping.jar &>> ${log_file}
+  validate $? "Renaming shipping Jar File" 
+
+}
 systemd_setup(){
   cp $script_dir/$app_name.service /etc/systemd/system/$app_name.service &>> ${log_file}
   validate $? "Copy systemctl service file"

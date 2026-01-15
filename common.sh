@@ -96,6 +96,20 @@ app_restart(){
   validate $? "Restarting $app_name service"
 }
 
+nginx_setup(){
+    dnf module disable nginx -y &>> ${log_file}
+  validate $? "Disabling Old Nginx Module"
+  dnf module enable nginx:1.24 -y &>> ${log_file}
+  validate $? "Enabling Nginx 1.24 Module"
+  dnf install nginx -y  &>> ${log_file}
+  validate $? "Installing Nginx"
+
+  systemctl enable nginx  &>> ${log_file}
+  validate $? "Enabling Nginx Service"
+  systemctl start nginx    &>> ${log_file}
+  validate $? "Starting Nginx Service"
+}
+
 print_total_time(){
   end_time=$(date +%s)
   total_time=$(($end_time - $start_time))

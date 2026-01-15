@@ -72,8 +72,15 @@ java_setup(){
   validate $? "Building shipping App"
   mv target/shipping-1.0.jar shipping.jar &>> ${log_file}
   validate $? "Renaming shipping Jar File" 
-
 }
+
+python_setup(){
+  dnf install python3 gcc python3-devel -y &>> ${log_file}
+  validate $? "Installing python"
+  dnf install python3 gcc python3-devel -y &>> ${log_file}
+  validate $? "Installing python"
+}
+
 systemd_setup(){
   cp $script_dir/$app_name.service /etc/systemd/system/$app_name.service &>> ${log_file}
   validate $? "Copy systemctl service file"
